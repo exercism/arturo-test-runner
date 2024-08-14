@@ -6,6 +6,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+RUN arturo --package install unitt
+
 WORKDIR /opt/test-runner
 COPY bin/run.sh bin/run.sh
 ENTRYPOINT ["/opt/test-runner/bin/run.sh"]
