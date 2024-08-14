@@ -1,8 +1,13 @@
-FROM alpine:3.18
+FROM arturolang/arturo
 
-# install packages required to run the tests
-RUN apk add --no-cache jq coreutils
+RUN apt-get update && \
+    apt-get install -y jq && \
+    apt-get purge --auto-remove && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN arturo --package install unitt
 
 WORKDIR /opt/test-runner
-COPY . .
+COPY bin/run.sh bin/run.sh
 ENTRYPOINT ["/opt/test-runner/bin/run.sh"]

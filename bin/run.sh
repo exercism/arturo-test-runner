@@ -31,29 +31,23 @@ mkdir -p "${output_dir}"
 
 echo "${slug}: testing..."
 
-# Run the tests for the provided implementation file and redirect stdout and
-# stderr to capture it
-test_output=$(false)
-# TODO: substitute "false" with the actual command to run the test:
-# test_output=$(command_to_run_tests 2>&1)
+tmp_dir=$(mktemp -d -t "exercism-verify-${slug}-XXXXX")
+
+trap 'rm -rf "$tmp_dir"' EXIT
+cp -r "${solution_dir}/." "${tmp_dir}"
+cd "${tmp_dir}"
+
+jq -r '.files.test[]' .meta/config.json | while read -r test_file; do
+    sed -i 's/test.skip/test/g' "${test_file}"
+done
+
+test_output=$(arturo tester.art 2>&1)
 
 # Write the results.json file based on the exit code of the command that was 
 # just executed that tested the implementation file
 if [ $? -eq 0 ]; then
     jq -n '{version: 1, status: "pass"}' > ${results_file}
 else
-    # OPTIONAL: Sanitize the output
-    # In some cases, the test output might be overly verbose, in which case stripping
-    # the unneeded information can be very helpful to the student
-    # sanitized_test_output=$(printf "${test_output}" | sed -n '/Test results:/,$p')
-
-    # OPTIONAL: Manually add colors to the output to help scanning the output for errors
-    # If the test output does not contain colors to help identify failing (or passing)
-    # tests, it can be helpful to manually add colors to the output
-    # colorized_test_output=$(echo "${test_output}" \
-    #      | GREP_COLOR='01;31' grep --color=always -E -e '^(ERROR:.*|.*failed)$|$' \
-    #      | GREP_COLOR='01;32' grep --color=always -E -e '^.*passed$|$')
-
     jq -n --arg output "${test_output}" '{version: 1, status: "fail", message: $output}' > ${results_file}
 fi
 

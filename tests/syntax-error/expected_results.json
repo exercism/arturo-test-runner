@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "status": "error",
-  "message": "TODO: replace with correct output"
+  "status": "fail",
+  "message": "\n===== tests/test-syntax-error.art =====\n\n\n\u001b[0;31m══╡ \u001b[1;31mName Error\u001b[0;31m ╞════════════════════════════════════════════════════ <script> ══\u001b[0m\n\n  Cannot resolve requested value\u001b[0m\n\n  Identifier not found: \n      \u001b[1misLeap\u001b[0m\n\n  \u001b[0;90m┃ \u001b[1;90mFile: \u001b[0;90msrc/syntax-error.art\n  \u001b[0;90m┃ \u001b[1;90mLine: \u001b[0;90m299\n  \u001b[0;90m┃ \u001b[0m\n\n  \u001b[4mHint\u001b[0m: Perhaps you meant... \u001b[1mis\u001b[0m ?\n                             \b\b\b\b\b\bor... \u001b[1mtimestamp\u001b[0m ?\n                             \b\b\b\b\b\bor... \u001b[1mleap?\u001b[0m ?\n\n\n\n===== Statistics =====\n\n⏏️    TOTAL: 0 assertions\n✅  PASSED: 0 assertions\n⏩ SKIPPED: 0 assertions\n❌  FAILED: 0 assertions\n\n===== ========== =====\n\n\n\u001b[0;31m══╡ \u001b[1;31mProgram Error\u001b[0;31m ╞═════════════════════════════════════════════════ <script> ══\u001b[0m\n\n  Some tests failed!"
 }
