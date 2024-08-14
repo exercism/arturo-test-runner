@@ -31,11 +31,15 @@ mkdir -p "${output_dir}"
 
 echo "${slug}: testing..."
 
-tmp_dir=$(mktemp -d)
-cp -r "${solution_dir}" "${tmp_dir}"
+tmp_dir=$(mktemp -d -t "exercism-verify-${slug}-XXXXX")
+
+trap 'rm -rf "$tmp_dir"' EXIT
+cp -r "${solution_dir}/." "${tmp_dir}"
 cd "${tmp_dir}"
 
-sed -i 's/test.skip/test/g' "tests/test-${slug}.art"
+jq -r '.files.test[]' .meta/config.json | while read -r test_file; do
+    sed -i 's/test.skip/test/g' "${test_file}"
+done
 
 test_output=$(arturo tester.art 2>&1)
 

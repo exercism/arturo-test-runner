@@ -1,24 +1,10 @@
-FROM alpine:3.20.0 AS build
+FROM arturolang/arturo
 
-RUN apk add --no-cache curl
-
-ARG VERSION=0.9.83
-ARG TAG=2024-05-28
-ARG ARCHIVE="arturo-${VERSION}-${TAG}-Linux-full.tar.gz"
-
-WORKDIR /root/.arturo/bin
-RUN curl -L -O "https://github.com/arturo-lang/nightly/releases/download/tag-${TAG}/${ARCHIVE}" && \
-    tar -xvf "${ARCHIVE}" arturo && \
-    chmod +x arturo && \
-    rm "${ARCHIVE}"
-
-FROM alpine:3.20.0
-
-RUN apk add --no-cache jq coreutils
-
-COPY --from=build /root/.arturo/ /root/.arturo/
-
-ENV PATH="/root/.arturo/bin:${PATH}"
+RUN apt-get update && \
+    apt-get install -y jq && \
+    apt-get purge --auto-remove && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/test-runner
 COPY bin/run.sh bin/run.sh

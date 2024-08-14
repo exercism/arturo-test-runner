@@ -1,5 +1,5 @@
 import {unitt}!
-import {src/leap}!
+import {src/partial-fail}!
 
 suite "Leap" [
     test "a year not divisible by 4 is a common year" [
