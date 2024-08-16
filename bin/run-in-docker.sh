@@ -9,6 +9,9 @@
 # $2: path to solution folder
 # $3: path to output directory
 
+# Environment:
+# SKIP_DOCKER_BUILD: if set, skip building the Docker image
+
 # Output:
 # Writes the test results to a results.json file in the passed-in output directory.
 # The test results are formatted according to the specifications at https://github.com/exercism/docs/blob/main/building/tooling/test-runners/interface.md
@@ -33,7 +36,11 @@ output_dir=$(realpath "${3%/}")
 mkdir -p "${output_dir}"
 
 # Build the Docker image
-docker build --rm -t exercism/arturo-test-runner .
+if [ -z "${SKIP_DOCKER_BUILD}" ]; then
+  docker build --rm -t exercism/arturo-test-runner .
+else
+  echo "Skipping docker build because SKIP_DOCKER_BUILD is set."
+fi
 
 # Run the Docker image using the settings mimicking the production environment
 docker run \
