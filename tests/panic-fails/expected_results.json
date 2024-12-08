@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "status": "fail",
+  "message": "\n===== tests/test-panic-fails.art =====\n\nSuite: Panic fails a test suite \n \n\u001b[0;33m    ✅ - assert that alwaysTrue passes because implemented\u001b[0m \n         assertion: true\n\n\n\u001b[0;31m══╡ \u001b[1;31mProgram Error\u001b[0;31m ╞═════════════════════════════════════════════════ <script> ══\u001b[0m\n\n  This function is in fact panicking\n\n\n\n===== Statistics =====\n\n⏏️    TOTAL: 1 assertions\n✅  PASSED: 1 assertions\n⏩ SKIPPED: 0 assertions\n❌  FAILED: 0 assertions\n\n===== ========== =====\n\n\n\u001b[0;31m══╡ \u001b[1;31mProgram Error\u001b[0;31m ╞═════════════════════════════════════════════════ <script> ══\u001b[0m\n\n  Some tests failed!"
+}
