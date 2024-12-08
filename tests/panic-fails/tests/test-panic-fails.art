@@ -1,0 +1,13 @@
+import {unitt}!
+import {src/panic-fails}!
+
+suite "Panic fails a test suite" [
+    test "alwaysTrue passes because implemented" [
+        result: alwaysTrue
+        assert -> result
+    ]
+
+    test "shouldNotPanic does not pass" [
+        assert -> shouldNotPanic
+    ]
+]
