@@ -15,7 +15,7 @@ RUN cd arturo && ./build.nims build --install --log && \
 
 ENV PATH="/root/.arturo/bin:${PATH}"
 
-RUN arturo --package install unitt
+RUN arturo --package install unitt 1.1.2
 
 WORKDIR /opt/test-runner
 COPY bin/run.sh bin/run.sh
