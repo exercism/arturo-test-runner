@@ -1,4 +1,4 @@
-FROM nimlang/nim:2.2.0-ubuntu
+FROM nimlang/nim:2.2.4-ubuntu-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -15,7 +15,7 @@ RUN cd arturo && ./build.nims build --install --log && \
 
 ENV PATH="/root/.arturo/bin:${PATH}"
 
-RUN arturo --package install unitt 1.1.2
+RUN arturo --package install unitt 2.0.1
 
 WORKDIR /opt/test-runner
 COPY bin/run.sh bin/run.sh
