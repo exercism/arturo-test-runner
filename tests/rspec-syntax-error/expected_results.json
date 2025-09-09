@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "status": "fail",
+  "message": "\n===== tests/test-rspec-syntax-error.art =====\n\n\n\u001b[0;31m══╡ \u001b[1;31mName Error\u001b[0;31m ╞════════════════════════════════════════════════════ <script> ══\u001b[0m\n\n  Cannot resolve requested value\u001b[0m\n\n  Identifier not found: \n      \u001b[1misLeap\u001b[0m\n\n  \u001b[0;90m┃ \u001b[1;90mFile: \u001b[0;90mtests/test-rspec-syntax-error.art\n  \u001b[0;90m┃ \u001b[1;90mLine: \u001b[0;90m92\n  \u001b[0;90m┃ \u001b[0m\n\n  \u001b[4mHint\u001b[0m: Perhaps you meant... \u001b[1mis\u001b[0m ?\n                             \b\b\b\b\b\bor... \u001b[1mtimestamp\u001b[0m ?\n                             \b\b\b\b\b\bor... \u001b[1mleap?\u001b[0m ?"
+}

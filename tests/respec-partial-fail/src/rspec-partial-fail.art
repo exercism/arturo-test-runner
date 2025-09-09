@@ -1,0 +1,3 @@
+isLeap?: function [year][
+    false
+]

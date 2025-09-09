@@ -1,0 +1,12 @@
+import.version:2.0.1 {unitt}! 
+import {src/rspec-all-fail}!
+
+describe "Leap" [
+    it "a year not divisible by 4 is a common year" [
+        expects.be:'false? @[isLeap? 2015]
+    ]
+
+    it.skip "a year divisible by 2 and not divisible by 4 is a common year" [
+        expects.be:'false? @[isLeap? 1970]
+    ]
+]

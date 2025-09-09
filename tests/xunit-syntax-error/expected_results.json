@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "status": "fail",
+  "message": "\n===== tests/test-xunit-syntax-error.art =====\n\n\n\u001b[0;31m══╡ \u001b[1;31mPackage Error\u001b[0;31m ╞═════════════════════════════════════════════════ <script> ══\u001b[0m\n\n  Package not found:\n      \u001b[1msrc/xuit-syntax-error\u001b[0m\n\n  \u001b[0;90m┃ \u001b[1;90mFile: \u001b[0;90m/root/.arturo/packages/cache/unitt/2.0.1/src/internal/runner.art\n  \u001b[0;90m┃ \u001b[1;90mLine: \u001b[0;90m92\n  \u001b[0;90m┃ \u001b[0m\n  \u001b[0;90m┃   90 ║      do -> unitt\\finish\u001b[0m\n  \u001b[0;90m┃   91 ║  \u001b[0m\n  \u001b[0;90m┃ \u001b[1;90m  92\u001b[0;90m ║\u001b[0;31m►\u001b[0;90m \u001b[1;90m]\u001b[0;90m\u001b[0m"
+}

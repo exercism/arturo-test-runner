@@ -1,0 +1,8 @@
+import.version:2.0.1 {unitt}! 
+import {src/rspec-panic-fails}!
+
+describe "Panic fails a test suite" [
+    it "This test should fail" [
+        expects shouldNotPanic
+    ]
+]

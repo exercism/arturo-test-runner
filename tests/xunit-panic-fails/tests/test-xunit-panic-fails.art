@@ -1,0 +1,13 @@
+import.version:2.0.1 {unitt}! 
+import {src/xunit-panic-fails}!
+
+suite "Panic fails a test suite" [
+    test "alwaysTrue passes because implemented" [
+        result: alwaysTrue
+        assert -> result
+    ]
+
+    test "shouldNotPanic does not pass" [
+        assert -> shouldNotPanic
+    ]
+]

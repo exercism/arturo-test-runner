@@ -1,0 +1,8 @@
+import.version:2.0.1 {unitt}!
+import {src/rspec-syntax-error}!
+
+describe "Leap" [
+    it "a year not divisible by 4 is a common year" [
+        expects.be:'false? @[isLeap? 2015]
+    ]
+]
