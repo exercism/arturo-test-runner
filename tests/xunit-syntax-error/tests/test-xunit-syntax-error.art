@@ -1,5 +1,5 @@
 import.version:2.0.1 {unitt}! 
-import {src/xuit-syntax-error}!
+import {src/xunit-syntax-error}!
 
 suite "Leap" [
     test "a year not divisible by 4 is a common year" [
