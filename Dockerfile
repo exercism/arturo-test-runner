@@ -15,7 +15,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/* \
  # Remove 30MB of icons that are not necessary
  && rm -rf /usr/share/icons
-
+ 
 WORKDIR /opt/test-runner
 COPY bin/run.sh bin/run.sh
 ENTRYPOINT ["/opt/test-runner/bin/run.sh"]
