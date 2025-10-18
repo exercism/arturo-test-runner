@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "status": "fail",
-  "message": "\n===== tests/test-rspec-panic-fails.art =====\n\nDescription: Panic fails a test suite \n \n\n\u001b[0;31m══╡ \u001b[1;31mProgram Error\u001b[0;31m ╞═════════════════════════════════════════════════ <script> ══\u001b[0m\n\n  This function is in fact panicking"
+  "status": "error",
+  "message": "Uncaught error in tests/test-rspec-panic-fails.art:\n#[\n        output: {\n                \n                \u001b[0;31m══╡ \u001b[1;31mProgram Error\u001b[0;31m ╞═════════════════════════════════════════════════ <script> ══\u001b[0m\n                \n                  This function is in fact panicking\n                \n                \n        }\n        code: 1\n]"
 }
