@@ -65,11 +65,11 @@ EOF
 arturo check-test-run-success.art "${slug}"
 result=$?
 if [ $result -eq 1 ]; then
-    jq -n --arg output "${test_output}" '{version: 1, status: "fail", message: $output}' > ${results_file}
+    jq -n --arg output "${test_output}" '{version: 1, status: "fail", message: $output}' > "${results_file}"
 elif [ $result -eq 2 ]; then
-    jq -n --arg output "${test_output}" '{version: 1, status: "error", message: $output}' > ${results_file}
+    jq -n --arg output "${test_output}" '{version: 1, status: "error", message: $output}' > "${results_file}"
 else
-    jq -n '{version: 1, status: "pass"}' > ${results_file}
+    jq -n '{version: 1, status: "pass"}' > "${results_file}"
 fi
 
 echo "${slug}: done"
