@@ -55,7 +55,7 @@ if empty? arg -> panic.unstyled.code:2 ""
 resultFile: ~".unitt/tests/test-|arg\0|.art"
 if not? file? resultFile -> panic.code:2 ""
 do resultFile
-if empty? specs -> panic.unstyled.code:2 ""
+if empty? specs -> panic.unstyled.code:1 ""
 testStatuses: flatten map specs 'describe ->
                 fold.seed:@[] describe\tests [acc test] ->
                     append acc test\assertions\0\1
