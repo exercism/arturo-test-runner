@@ -1,0 +1,8 @@
+import.version:3.0.0 {unitt}! 
+import {src/empty-file}!
+
+describe "Leap" [
+    it "a year not divisible by 4 is a common year" [
+        expects.be @[isLeap? 2015]
+    ]
+]
