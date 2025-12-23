@@ -1,7 +1,0 @@
-alwaysTrue: function [][
-    true
-]
-
-shouldNotPanic: function [][
-    panic "This function is in fact panicking"
-]
