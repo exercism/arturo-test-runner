@@ -36,10 +36,8 @@ tmp_dir=$(mktemp -d -t "exercism-verify-${slug}-XXXXX")
 trap 'rm -rf "$tmp_dir"' EXIT
 cp -r "${solution_dir}/." "${tmp_dir}"
 cd "${tmp_dir}"
-jq -r '.files.test[]' .meta/config.json | while read -r test_file; do
-    sed -i -E 's/(test|it).skip/\1/g' "${test_file}"
-done
-
+test_file="tests/test-${slug}.art"
+sed -i -E 's/(test|it).skip/\1/g' "${test_file}"
 # Capture the output of the test run in case of failure or error
 test_output=$(arturo tester.art 2>&1)
 
