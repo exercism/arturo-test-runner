@@ -1,0 +1,8 @@
+import.version:3.0.0 {unitt}! 
+import {src/failure-if-only-test-fails}!
+
+describe "Failure If Only Test Fails" [
+    it "this should fail" [
+        expects.be:'false? @[returnsTrue]
+    ]
+]
