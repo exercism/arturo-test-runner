@@ -116,7 +116,7 @@ def normalize_output(text: str) -> str:
     text = re.sub(r'/[^ \n"]+/\.arturo/', '~/.arturo/', text)
     
     # Normalize the error header line to fixed width since it can vary on the shell
-    text = re.sub(r'╞═+.*? <script> ══', '╞════════════════════════════════════════════════════ <script> ══', text)
+    text = re.sub(r'╞.*? <script> ══', '╞════════════════════════════════════════════════════ <script> ══', text)
     
     # On macOS, a name error returns an exit code of 127 instead of 1.
     # Other tests are fine cross-platform.
