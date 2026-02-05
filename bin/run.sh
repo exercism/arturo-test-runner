@@ -40,7 +40,8 @@ cp "${parser_dir}/"*.py "${tmp_dir}/"
 cd "${tmp_dir}"
 
 test_file="tests/test-${slug}.art"
-sed -i '' -E 's/(test|it).skip/\1/g' "${test_file}"
+sed -i.bak -E 's/(test|it).skip/\1/g' "${test_file}"
+rm "${test_file}.bak"
 
 test_output=$(arturo tester.art 2>&1)
 test_filename=$(basename "${test_file}")
