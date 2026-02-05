@@ -106,7 +106,8 @@ def update_test_as_failed(test_obj: dict[str, object], assertion: str, test_code
 
 def normalize_output(text: str) -> str:
     """
-    Normalizes command line output by sanitizing paths and terminal width-dependent formatting.
+    Normalizes command line output by sanitizing paths, standardizing terminal width-dependent formatting,
+    and fixing the exit code for name errors on macOS.
     """
     if not text:
         return text
@@ -117,6 +118,11 @@ def normalize_output(text: str) -> str:
     # Normalize the error header line to fixed width since it can vary on the shell
     text = re.sub(r'╞═+.*? <script> ══', '╞════════════════════════════════════════════════════ <script> ══', text)
     
+    # On macOS, a name error returns an exit code of 127 instead of 1.
+    # Other tests are fine cross-platform.
+    if sys.platform == 'darwin' and 'Name Error' in text and 'code: 127' in text:
+        text = text.replace('code: 127', 'code: 1')
+
     return text
 
 def write_output(data: dict[str, object]):
