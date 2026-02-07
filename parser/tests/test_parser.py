@@ -69,5 +69,6 @@ class TestResultsParser(unittest.TestCase):
         self.assertEqual(output["tests"][2]["status"], "error") 
         self.assertEqual(output["tests"][2]["message"], "An error was encountered parsing this test. Please open a thread on the Exercism forums with the test that failed and your code please.") 
 
+
 if __name__ == "__main__":
     unittest.main()
