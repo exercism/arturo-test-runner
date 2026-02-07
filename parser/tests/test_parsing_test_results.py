@@ -30,8 +30,8 @@ specs: [
         parsed = parsing_test_results.parse_test_results(result)
         key = ("Exercise Name", "First Test")
         self.assertIn(key, parsed)
-        self.assertTrue(parsed[key]['passed'])
-        self.assertEqual(parsed[key]['output'], "expects.be:'true? true")
+        self.assertTrue(parsed[key]["passed"])
+        self.assertEqual(parsed[key]["output"], "expects.be:'true? true")
 
     def test_parse_test_results_failure_with_message(self):
         result = """
@@ -55,8 +55,8 @@ specs: [
         key = ("Exercise Name", "First Test")
         parsed = parsing_test_results.parse_test_results(result)
         self.assertIn(key, parsed)
-        self.assertFalse(parsed[key]['passed'])
-        self.assertEqual(parsed[key]['output'], "expects.be:'false? true")
+        self.assertFalse(parsed[key]["passed"])
+        self.assertEqual(parsed[key]["output"], "expects.be:'false? true")
 
 if __name__ == '__main__':
     unittest.main()

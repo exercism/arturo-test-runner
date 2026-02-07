@@ -23,13 +23,13 @@ describe "Example Suite" [
 
         self.assertEqual(len(result), 2)
         
-        self.assertEqual(result[0]['suite'], "Example Suite")
-        self.assertEqual(result[0]['name'], "test 1")
-        self.assertEqual(result[0]['code'], "expects.be:'true? @[returnsFalse]")
+        self.assertEqual(result[0]["suite"], "Example Suite")
+        self.assertEqual(result[0]["name"], "test 1")
+        self.assertEqual(result[0]["code"], "expects.be:'true? @[returnsFalse]")
         
-        self.assertEqual(result[1]['suite'], "Example Suite")
-        self.assertEqual(result[1]['name'], "test 2")
-        self.assertEqual(result[1]['code'], "expects.be:'false? @[returnsTrue]")
+        self.assertEqual(result[1]["suite"], "Example Suite")
+        self.assertEqual(result[1]["name"], "test 2")
+        self.assertEqual(result[1]["code"], "expects.be:'false? @[returnsTrue]")
 
     def test_parse_describe_multiline_test_code(self):
         source = """
@@ -47,7 +47,7 @@ describe "Multiline" [
         result = parsing_test_describes.parse_source_file(source)
         
         self.assertEqual(len(result), 1)
-        code = result[0]['code']
+        code = result[0]["code"]
         expected_code = """r: to :robot @[0 0 "north"]
 do [r\\simulate "R"]
 expects.be:'equal? @[
@@ -56,5 +56,5 @@ expects.be:'equal? @[
 ]"""
         self.assertEqual(code, expected_code)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
