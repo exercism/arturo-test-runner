@@ -45,9 +45,7 @@ def build_output(
     test_results: dict, 
     arturo_output: str
 ) -> dict[str, object]:
-    """
-    Constructs the Exercism v2 JSON output structure.
-    """
+    """Construct the Exercism v2 JSON output from test definitions, test results, and Arturo output."""
     v2_tests = []
     run_status = 'pass'
     
@@ -106,8 +104,9 @@ def update_test_as_failed(test_obj: dict[str, object], assertion: str, test_code
 
 def normalize_output(text: str) -> str:
     """
-    Normalizes command line output by sanitizing paths, standardizing terminal width-dependent formatting,
-    and fixing the exit code for name errors on macOS.
+    Normalize and sanitize command line output.
+
+    This sanitizes paths, standardizes terminal formatting, and fixes macOS exit codes.
     """
     if not text:
         return text
@@ -126,7 +125,7 @@ def normalize_output(text: str) -> str:
     return text
 
 def write_output(data: dict[str, object]):
-    """Writes the v2 test results to JSON."""
+    """Write the v2 test results dictionary to JSON."""
     output_file = Path('results.json')
     try:
         output_file.write_text(json.dumps(data, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')

@@ -17,10 +17,7 @@ test_block = it_keyword("type") + string_value("name") + regular_block("code")
 item_grammar = describe_block | test_block
 
 def extract_tests(text: str, current_suite: str) -> list[dict[str, object]]:
-    """
-    Recursively extracts tests from text in order, returning a list of test dictionaries
-    with name, code, and their suite (if applicable).
-    """
+    """Recursively extract test cases from the contents of a test file."""
     tests = []
     
     for match, start, end in item_grammar.scan_string(text):
@@ -47,8 +44,6 @@ def extract_tests(text: str, current_suite: str) -> list[dict[str, object]]:
 
 
 def parse_source_file(source_text: str) -> list[dict[str, object]]:
-    """
-    Parse the passed test suite and returns a list of test dictionaries,
-    with name, code, and their suite (if applicable).
-    """
+    """Build a list of test cases from the contents of a test file."""
+
     return extract_tests(source_text, None)
