@@ -23,12 +23,15 @@ string_value = pyparsing.QuotedString('"')
 # true | false
 bool_value = (pyparsing.Keyword("true") | pyparsing.Keyword("false")).set_parse_action(lambda t: t[0] == "true")
 
+
 def key(k):
     return pyparsing.Literal(k)
+
 
 def search_first(grammar: pyparsing.ParserElement, text: str):
     results = grammar.search_string(text, max_matches=1)
     return results[0] if results else None
+
 
 def search_all(grammar: pyparsing.ParserElement, text: str):
     return grammar.search_string(text)

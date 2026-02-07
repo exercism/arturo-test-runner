@@ -16,6 +16,7 @@ test_block = it_keyword("type") + string_value("name") + regular_block("code")
 
 item_grammar = describe_block | test_block
 
+
 def extract_tests(text: str, current_suite: str) -> list[dict[str, object]]:
     """Recursively extract test cases from the contents of a test file."""
     tests = []

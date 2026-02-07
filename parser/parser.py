@@ -124,6 +124,7 @@ def normalize_output(text: str) -> str:
 
     return text
 
+
 def write_output(data: dict[str, object]):
     """Write the v2 test results dictionary to JSON."""
     output_file = Path('results.json')
