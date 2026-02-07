@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from parsing_test_describes import parse_source_file
+import parsing_test_describes
 
 class TestParsingDescribes(unittest.TestCase):
     def test_parse_describe_simple_tests(self):
@@ -19,7 +19,7 @@ describe "Example Suite" [
     ]
 ]
 """
-        result = parse_source_file(source)
+        result = parsing_test_describes.parse_source_file(source)
 
         self.assertEqual(len(result), 2)
         
@@ -44,7 +44,7 @@ describe "Multiline" [
     ]
 ]
 """
-        result = parse_source_file(source)
+        result = parsing_test_describes.parse_source_file(source)
         
         self.assertEqual(len(result), 1)
         code = result[0]['code']

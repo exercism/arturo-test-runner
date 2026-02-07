@@ -3,8 +3,8 @@ import sys
 import json
 from pathlib import Path
 
-from parsing_test_describes import parse_source_file
-from parsing_test_results import parse_test_results
+import parsing_test_describes
+import parsing_test_results
 
 def main():
     if len(sys.argv) < 2: 
@@ -16,7 +16,7 @@ def main():
     try:
         with open(test_path, 'r', encoding='utf-8') as f:
             test_text = f.read()
-        test_definitions = parse_source_file(test_text)
+        test_definitions = parsing_test_describes.parse_source_file(test_text)
     except FileNotFoundError:
         print(f'ERROR: Source file {test_path} not found.', file=sys.stderr)
         sys.exit(1)
@@ -28,7 +28,7 @@ def main():
         with open(result_path, 'r', encoding='utf-8') as f:
             results_text = f.read()
     
-    test_results = parse_test_results(results_text)
+    test_results = parsing_test_results.parse_test_results(results_text)
     
     # Capture passed-in Arturo terminal output if there's an error to report
     arturo_output = ""

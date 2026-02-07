@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from parsing_test_results import parse_test_results
+import parsing_test_results
 
 class TestResultsParsing(unittest.TestCase):
     def test_parse_test_results_simple_pass(self):
@@ -27,7 +27,7 @@ specs: [
     ]
 ]
 """
-        parsed = parse_test_results(result)
+        parsed = parsing_test_results.parse_test_results(result)
         key = ("Exercise Name", "First Test")
         self.assertIn(key, parsed)
         self.assertTrue(parsed[key]['passed'])
@@ -53,7 +53,7 @@ specs: [
         ]
         """
         key = ("Exercise Name", "First Test")
-        parsed = parse_test_results(result)
+        parsed = parsing_test_results.parse_test_results(result)
         self.assertIn(key, parsed)
         self.assertFalse(parsed[key]['passed'])
         self.assertEqual(parsed[key]['output'], "expects.be:'false? true")

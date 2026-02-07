@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from parser import build_output
+import parser
 
 class TestResultsParser(unittest.TestCase):
     def test_report_single_test_success(self):
@@ -15,7 +15,7 @@ class TestResultsParser(unittest.TestCase):
         }]
         parsed_results = {("Exercise Name", "First Test Passing"): {"passed": True, "output": None}}
         
-        output = build_output(expected_tests, parsed_results, None)
+        output = parser.build_output(expected_tests, parsed_results, None)
         
         self.assertEqual(output["status"], "pass")
         self.assertEqual(len(output["tests"]), 1)
@@ -31,7 +31,7 @@ class TestResultsParser(unittest.TestCase):
             ("Exercise Name", "First Test Failing"): {"passed": False, "output": "expects.be:'true? @[false]"}
         }
         
-        output = build_output(expected_tests, parsed_results, None)
+        output = parser.build_output(expected_tests, parsed_results, None)
         
         self.assertEqual(output["status"], "fail")
         self.assertEqual(output["tests"][0]["status"], "fail")
@@ -45,7 +45,7 @@ class TestResultsParser(unittest.TestCase):
         }]
         parsed_results = {} 
         
-        output = build_output(expected_tests, parsed_results, "An error was encountered running the tests.")
+        output = parser.build_output(expected_tests, parsed_results, "An error was encountered running the tests.")
         
         self.assertEqual(output["status"], "error")
         self.assertEqual(output["message"], "An error was encountered running the tests.")
@@ -62,7 +62,7 @@ class TestResultsParser(unittest.TestCase):
             ("Exercise Name", "Second Test Failing"): {"passed": False, "output": "code2"},
         }
         
-        output = build_output(expected_tests, parsed_results, None)
+        output = parser.build_output(expected_tests, parsed_results, None)
         
         self.assertEqual(output["tests"][0]["status"], "pass")
         self.assertEqual(output["tests"][1]["status"], "fail")
