@@ -95,7 +95,7 @@ def build_output(
     }
 
 
-def update_test_as_failed(test_obj: dict[str, object], assertion: str, test_code: str):
+def update_test_as_failed(test_obj: dict[str, object], assertion: str, test_code: str) -> None:
     test_obj['status'] = 'fail'
     
     msg = assertion
