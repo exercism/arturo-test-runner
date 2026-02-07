@@ -37,7 +37,7 @@ tmp_dir=$(mktemp -d -t "exercism-verify-${slug}-XXXXX")
 trap 'rm -rf "$tmp_dir"' EXIT
 cp -r "${solution_dir}/." "${tmp_dir}"
 cp "${parser_dir}/"*.py "${tmp_dir}/"
-cd "${tmp_dir}"
+cd "${tmp_dir}" || exit 1
 
 test_file="tests/test-${slug}.art"
 perl -i -pe 's/(test|it)\K.skip//g' "${test_file}"
