@@ -1,0 +1,12 @@
+import.version:3.0.0 {unitt}! 
+import {src/failure-if-error-raised}!
+
+describe "Failure If Error Raised" [
+    it "this will pass" [
+        expects.be:'one? @[myGet [1 2] 1]
+    ]
+
+    it "this will not pass" [
+        expects @[myGet [1 2] neg 1]
+    ]
+]

@@ -1,0 +1,8 @@
+import.version:3.0.0 {unitt}! 
+import {src/success-if-only-test-passes}!
+
+describe "Success If Only Test Passes" [
+    it "this should pass" [
+        expects.be:'true? @[returnsTrue]
+    ]
+]

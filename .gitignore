@@ -1,2 +1,3 @@
 /tests/**/*/results.json
 /tests/**/*/*.unitt
+__pycache__/

@@ -1,2 +1,4 @@
 *
 !bin/run.sh
+!parser/
+!requirements.txt

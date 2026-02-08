@@ -1,0 +1,12 @@
+import.version:3.0.0 {unitt}!
+import {src/success-if-all-tests-pass}!
+
+describe "Success If All Tests Pass" [
+    it "a year not divisible by 4 is a common year" [
+        expects.be:'false? @[isLeap? 2015]
+    ]
+
+    it "a year divisible by 2 and not divisible by 4 is a common year" [
+        expects.be:'false? @[isLeap? 1970]
+    ]
+]

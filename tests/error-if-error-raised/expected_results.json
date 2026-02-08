@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "status": "error",
+  "message": "Uncaught error in tests/test-error-if-error-raised.art:\n#[\n        output: {\n                \n                \u001b[0;31m══╡ \u001b[1;31mPackage Error\u001b[0;31m ╞════════════════════════════════════════════════════ <script> ══\u001b[0m\n                \n                  Package not found:\n                      \u001b[1msrc/failure-if-error-raised\u001b[0m\n                \n                  \u001b[0;90m┃ \u001b[1;90mFile: \u001b[0;90m~/.arturo/packages/cache/unitt/3.0.0/src/unitt.art\n                  \u001b[0;90m┃ \u001b[1;90mLine: \u001b[0;90m216\n                  \u001b[0;90m┃ \u001b[0m\n                  \u001b[0;90m┃  214 ║  \u001b[0m\n                  \u001b[0;90m┃  215 ║  ; Alternative alias for the `it` function.\u001b[0m\n                  \u001b[0;90m┃ \u001b[1;90m 216\u001b[0;90m ║\u001b[0;31m►\u001b[0;90m \u001b[1;90mtest: var 'it\u001b[0;90m\u001b[0m\n                \n                \n        }\n        code: 1\n]",
+  "tests": []
+}

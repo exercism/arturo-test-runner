@@ -1,0 +1,12 @@
+import.version:3.0.0 {unitt}! 
+import {src/failure-if-all-tests-fail}!
+
+describe "Failure If All Tests Fail" [
+    it "this should fail" [
+        expects.be:'true? @[returnsFalse]
+    ]
+
+    it "this should fail too" [
+        expects.be:'false? @[returnsTrue]
+    ]
+]

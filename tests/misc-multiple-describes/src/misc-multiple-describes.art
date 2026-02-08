@@ -1,0 +1,6 @@
+returnsTrue: function [][
+    true    
+]
+returnsFalse: function [][
+    false
+]

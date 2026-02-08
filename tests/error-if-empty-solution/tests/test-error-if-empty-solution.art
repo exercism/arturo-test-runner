@@ -1,0 +1,8 @@
+import.version:3.0.0 {unitt}! 
+import {src/error-if-empty-solution}!
+
+describe "Error If Empty Solution" [
+    it "this should fail" [
+        expects.be:'true? @[returnsTrue]
+    ]
+]

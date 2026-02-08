@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "status": "fail",
+  "tests": [
+    {
+      "name": "test 1",
+      "test_code": "expects.be:'true? @[returnsTrue]",
+      "status": "pass",
+      "message": null
+    },
+    {
+      "name": "test 2",
+      "test_code": "expects.be:'true? @[returnsTrue]",
+      "status": "pass",
+      "message": null
+    },
+    {
+      "name": "test 3",
+      "test_code": "expects.be:'true? @[returnsTrue]",
+      "status": "pass",
+      "message": null
+    },
+    {
+      "name": "test 4",
+      "test_code": "expects.be:'false? @[returnsTrue]",
+      "status": "fail",
+      "message": "expects.be:'false? true"
+    }
+  ]
+}

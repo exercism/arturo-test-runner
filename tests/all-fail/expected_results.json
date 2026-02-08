@@ -1,5 +1,0 @@
-{
-  "version": 1,
-  "status": "fail",
-  "message": "======== .unitt/tests/test-all-fail.art ========\n\nDescribe: Leap\n\n    ❌ - a year not divisible by 4 is a common year\n        ❌: false? true\n    \n    ❌ - a year divisible by 2 and not divisible by 4 is a common year\n        ❌: false? true\n\n\n========== Summary ==========\n\n  ⏏️    TOTAL: 2 assertions\n  ✅  PASSED: 0 assertion\n  ⏩ SKIPPED: 0 assertions\n  ❌  FAILED: 2 assertion\n\n========== ======= ==========\n\n\n\u001b[0;31m══╡ \u001b[1;31mProgram Error\u001b[0;31m ╞═════════════════════════════════════════════════ <script> ══\u001b[0m\n\n  Some tests failed"
-}

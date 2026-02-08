@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "status": "pass",
+  "tests": [
+    {
+      "name": "this should pass",
+      "test_code": "expects.be:'true? @[returnsTrue]",
+      "status": "pass",
+      "message": null
+    }
+  ]
+}
