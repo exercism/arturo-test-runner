@@ -128,10 +128,42 @@ def normalize_output(text: str) -> str:
 def write_output(data: dict[str, object]):
     """Write the v2 test results dictionary to JSON."""
     output_file = Path("results.json")
+    
+    fallback_data = None
     try:
-        output_file.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        json_data = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
+        output_file.write_text(json_data, encoding="utf-8")
+    except (TypeError, ValueError) as e:
+        # JSON serialization failure
+        fallback_data = {
+            "version": 2,
+            "status": "error",
+            "message": f"Internal error: Failed to serialize test results ({type(e).__name__}: {e})",
+            "tests": []
+        }
+    except (OSError, IOError) as e:
+        # File write failure
+        fallback_data = {
+            "version": 2,
+            "status": "error",
+            "message": f"Internal error: Failed to write results file ({type(e).__name__}: {e})",
+            "tests": []
+        }
     except Exception as e:
-        print(f"Error writing output: {e}", file=sys.stderr)
+        fallback_data = {
+            "version": 2,
+            "status": "error",
+            "message": f"Internal error: Unexpected failure ({type(e).__name__}: {e})",
+            "tests": []
+        }
+    
+    if fallback_data:
+        try:
+            json_data = json.dumps(fallback_data, indent=2, ensure_ascii=False) + "\n"
+            output_file.write_text(json_data, encoding="utf-8")
+        except Exception:
+            # At this point, the shell script can handle the results.json file not being written
+            sys.exit(1)
 
 if __name__ == "__main__":
     main()

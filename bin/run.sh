@@ -37,11 +37,13 @@ tmp_dir=$(mktemp -d -t "exercism-verify-${slug}-XXXXX")
 trap 'rm -rf "$tmp_dir"' EXIT
 cp -r "${solution_dir}/." "${tmp_dir}"
 cp "${parser_dir}/"*.py "${tmp_dir}/"
-cd "${tmp_dir}" || exit 1
+if ! cd "${tmp_dir}"; then
+    jq -n '{version: 2, status: "error", message: "Critical error: The test runner failed to generate your results. Please open a thread on the Exercism forums and let us know.", tests: []}' > "${output_dir}/results.json"
+    exit 1
+fi
 
 test_file="tests/test-${slug}.art"
 perl -i -pe 's/(test|it)\K.skip//g' "${test_file}"
-rm "${test_file}.bak"
 
 test_output=$(arturo tester.art 2>&1)
 test_filename=$(basename "${test_file}")
@@ -49,9 +51,8 @@ result_art_file=".unitt/tests/${test_filename}"
 
 python3 parser.py "${test_file}" "${result_art_file}" "${test_output}"
 
-if [ -f results.json ]; then
-    cp results.json "${output_dir}/"
-else
-    echo "${slug}: Error in parsing results."
-    exit 1
+if [ ! -f results.json ]; then
+    jq -n '{version: 2, status: "error", message: "Critical error: The test runner failed to generate your results. Please open a thread on the Exercism forums and let us know.", tests: []}' > results.json
 fi
+
+cp results.json "${output_dir}/"
