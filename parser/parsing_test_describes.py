@@ -5,7 +5,6 @@ import pyparsing
 
 import parsing_common
 
-
 describe_keyword = pyparsing.Keyword("describe")
 it_keyword = pyparsing.Literal("it.skip") | pyparsing.Keyword("it")
 
