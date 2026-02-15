@@ -1,3 +1,5 @@
+import typing
+
 import pyparsing
 
 import parsing_common
@@ -14,10 +16,16 @@ tests_property = parsing_common.key("tests:") + parsing_common.regular_block("va
 assertions_property = parsing_common.key("assertions:") + parsing_common.regular_block("value")
 
 # assertion [ "code" boolean ]
-assertion_element = pyparsing.Group(pyparsing.Suppress("[") + parsing_common.string_value("code") + parsing_common.bool_value("value") + pyparsing.Suppress("]"))
+assertion_element = pyparsing.Group(
+    pyparsing.Suppress("[")
+    + parsing_common.string_value("code")
+    + parsing_common.bool_value("value")
+    + pyparsing.Suppress("]")
+)
 
 
-def parse_test_results(text: str) -> dict[tuple[str, str], dict[str, object]]:
+def parse_test_results(text: str) -> dict[tuple[str, str], dict[str, typing.Any]]:
+    """Parse the test results from the given text."""
     results = {}
     
     specs_found = parsing_common.search_first(specs_block, text)

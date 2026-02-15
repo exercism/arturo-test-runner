@@ -1,10 +1,11 @@
-import unittest
-import sys
 import os
+import sys
+import unittest
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import parsing_test_describes
+
 
 class TestParsingDescribes(unittest.TestCase):
     def test_parse_describe_simple_tests(self):
@@ -19,17 +20,20 @@ describe "Example Suite" [
     ]
 ]
 """
-        result = parsing_test_describes.parse_source_file(source)
-
-        self.assertEqual(len(result), 2)
-        
-        self.assertEqual(result[0]["suite"], "Example Suite")
-        self.assertEqual(result[0]["name"], "test 1")
-        self.assertEqual(result[0]["code"], "expects.be:'true? @[returnsFalse]")
-        
-        self.assertEqual(result[1]["suite"], "Example Suite")
-        self.assertEqual(result[1]["name"], "test 2")
-        self.assertEqual(result[1]["code"], "expects.be:'false? @[returnsTrue]")
+        got = parsing_test_describes.parse_source_file(source)
+        want = [
+            {
+                "suite": "Example Suite",
+                "name": "test 1",
+                "code": "expects.be:'true? @[returnsFalse]"
+            },
+            {
+                "suite": "Example Suite",
+                "name": "test 2",
+                "code": "expects.be:'false? @[returnsTrue]"
+            }
+        ]
+        self.assertEqual(got, want)
 
     def test_parse_describe_multiline_test_code(self):
         source = """
@@ -44,17 +48,21 @@ describe "Multiline" [
     ]
 ]
 """
-        result = parsing_test_describes.parse_source_file(source)
-        
-        self.assertEqual(len(result), 1)
-        code = result[0]["code"]
-        expected_code = """r: to :robot @[0 0 "north"]
+        got = parsing_test_describes.parse_source_file(source)
+        want = [
+            {
+                "suite": "Multiline",
+                "name": "should dedent correctly",
+                "code": """r: to :robot @[0 0 "north"]
 do [r\\simulate "R"]
 expects.be:'equal? @[
     [0 0 "east"]
     @[r\\x r\\y r\\direction]
 ]"""
-        self.assertEqual(code, expected_code)
+            }
+        ]
+        self.assertEqual(got, want)
+
 
 if __name__ == "__main__":
     unittest.main()

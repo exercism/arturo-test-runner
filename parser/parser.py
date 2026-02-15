@@ -1,32 +1,32 @@
+import json
+import pathlib
 import re
 import sys
-import json
-from pathlib import Path
+import typing
 
 import parsing_test_describes
 import parsing_test_results
 
+
 def main():
     if len(sys.argv) < 2: 
         print("Usage: python parser.py <test-file.art> [result-file.art] [arturo-output]")
-        return
+        sys.exit(2)
     
-    test_path = Path(sys.argv[1])
+    test_path = pathlib.Path(sys.argv[1])
     
     try:
-        with open(test_path, "r", encoding="utf-8") as f:
-            test_text = f.read()
+        test_text = test_path.read_text(encoding="utf-8")
         test_definitions = parsing_test_describes.parse_source_file(test_text)
     except FileNotFoundError:
         print(f"ERROR: Source file {test_path} not found.", file=sys.stderr)
         sys.exit(1)
 
-    result_path = Path(sys.argv[2])
+    result_path = pathlib.Path(sys.argv[2])
     
     results_text = ""
     if result_path and result_path.exists():
-        with open(result_path, "r", encoding="utf-8") as f:
-            results_text = f.read()
+        results_text = result_path.read_text(encoding="utf-8")
     
     test_results = parsing_test_results.parse_test_results(results_text)
     
@@ -41,10 +41,10 @@ def main():
 
 
 def build_output(
-    test_definitions: list[dict[str, object]], 
+    test_definitions: list[dict[str, typing.Any]], 
     test_results: dict, 
     arturo_output: str
-) -> dict[str, object]:
+) -> dict[str, typing.Any]:
     """Construct the Exercism v2 JSON output from test definitions, test results, and Arturo output."""
     v2_tests = []
     run_status = "pass"
@@ -93,7 +93,7 @@ def build_output(
     }
 
 
-def update_test_as_failed(test_obj: dict[str, object], assertion: str, test_code: str):
+def update_test_as_failed(test_obj: dict[str, typing.Any], assertion: str, test_code: str):
     test_obj["status"] = "fail"
     
     msg = assertion
@@ -125,30 +125,32 @@ def normalize_output(text: str) -> str:
     return text
 
 
-def write_output(data: dict[str, object]):
+def write_output(data: dict[str, typing.Any]) -> None:
     """Write the v2 test results dictionary to JSON."""
-    output_file = Path("results.json")
+    output_file = pathlib.Path("results.json")
     
     fallback_data = None
     try:
-        json_data = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
-        output_file.write_text(json_data, encoding="utf-8")
-    except (TypeError, ValueError) as e:
-        # JSON serialization failure
-        fallback_data = {
-            "version": 2,
-            "status": "error",
-            "message": f"Internal error: Failed to serialize test results ({type(e).__name__}: {e})",
-            "tests": []
-        }
-    except (OSError, IOError) as e:
-        # File write failure
-        fallback_data = {
-            "version": 2,
-            "status": "error",
-            "message": f"Internal error: Failed to write results file ({type(e).__name__}: {e})",
-            "tests": []
-        }
+        try:
+            json_data = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
+        except (TypeError, ValueError) as e:
+            # JSON serialization failure
+            fallback_data = {
+                "version": 2,
+                "status": "error",
+                "message": f"Internal error: Failed to serialize test results ({type(e).__name__}: {e})",
+                "tests": []
+            }
+        try:
+            output_file.write_text(json_data, encoding="utf-8")
+        except (OSError, IOError) as e:
+            # File write failure
+            fallback_data = {
+                "version": 2,
+                "status": "error",
+                "message": f"Internal error: Failed to write results file ({type(e).__name__}: {e})",
+                "tests": []
+            }
     except Exception as e:
         fallback_data = {
             "version": 2,
@@ -164,6 +166,7 @@ def write_output(data: dict[str, object]):
         except Exception:
             # At this point, the shell script can handle the results.json file not being written
             sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
