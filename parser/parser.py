@@ -97,8 +97,8 @@ def format_assertion_message(text: str) -> str:
     """Format a test's assertion result to match the assertion in the test code"""
     func, *args = text.strip().split(' ')
     if not args:
-        return text[:65535]
-    return f"expects.be:'{func} @[{' '.join(args)}]"[:65535]
+        return text
+    return f"expects.be:'{func} @[{' '.join(args)}]"
 
 
 def normalize_output(text: str) -> str:
