@@ -35,10 +35,10 @@ class TestResultsParser(unittest.TestCase):
         expected_tests = [{
             "suite": "Exercise Name",
             "name": "First Test Failing",
-            "code": "expects.be:'true? @[false]"
+            "code": "expects.be:'true? @[a b]"
         }]
         parsed_results = {
-            ("Exercise Name", "First Test Failing"): {"passed": False, "output": "expects.be:'true? @[false]"}
+            ("Exercise Name", "First Test Failing"): {"passed": False, "output": "true? true false"}
         }
         
         got = parser.build_output(expected_tests, parsed_results, None)
@@ -49,8 +49,8 @@ class TestResultsParser(unittest.TestCase):
                 {
                     "name": "First Test Failing",
                     "status": "fail",
-                    "test_code": "expects.be:'true? @[false]",
-                    "message": "expects.be:'true? @[false]"
+                    "test_code": "expects.be:'true? @[a b]",
+                    "message": "expects.be:'true? @[true false]"
                 }
             ]
         }

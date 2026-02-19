@@ -6,13 +6,13 @@
       "name": "this should fail",
       "test_code": "expects.be:'true? @[returnsFalse]",
       "status": "fail",
-      "message": "expects.be:'true? false"
+      "message": "expects.be:'true? @[false]"
     },
     {
       "name": "this should fail too",
       "test_code": "expects.be:'false? @[returnsTrue]",
       "status": "fail",
-      "message": "expects.be:'false? true"
+      "message": "expects.be:'false? @[true]"
     }
   ]
 }

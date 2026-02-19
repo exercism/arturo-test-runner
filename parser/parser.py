@@ -1,4 +1,5 @@
 import json
+import operator
 import pathlib
 import re
 import sys
@@ -14,20 +15,17 @@ def main():
         sys.exit(2)
     
     test_path = pathlib.Path(sys.argv[1])
-    
-    try:
-        test_text = test_path.read_text(encoding="utf-8")
-        test_definitions = parsing_test_describes.parse_source_file(test_text)
-    except FileNotFoundError:
+    if not test_path.exists():
         print(f"ERROR: Source file {test_path} not found.", file=sys.stderr)
         sys.exit(1)
+    test_text = test_path.read_text()
+    test_definitions = parsing_test_describes.parse_source_file(test_text)
 
     result_path = pathlib.Path(sys.argv[2])
-    
-    results_text = ""
-    if result_path and result_path.exists():
-        results_text = result_path.read_text(encoding="utf-8")
-    
+    if not result_path.exists():
+        print(f"ERROR: Result file {result_path} not found.", file=sys.stderr)
+        sys.exit(1)
+    results_text = result_path.read_text()
     test_results = parsing_test_results.parse_test_results(results_text)
     
     # Capture passed-in Arturo terminal output if there's an error to report
@@ -42,7 +40,7 @@ def main():
 
 def build_output(
     test_definitions: list[dict[str, typing.Any]], 
-    test_results: dict, 
+    test_results: dict[str, typing.Any], 
     arturo_output: str
 ) -> dict[str, typing.Any]:
     """Construct the Exercism v2 JSON output from test definitions, test results, and Arturo output."""
@@ -73,8 +71,10 @@ def build_output(
         
         if test_key in test_results:
             result = test_results[test_key]
-            if not result["passed"]:
-                update_test_as_failed(test_obj, result["output"], test_code)
+            passed, assertion = operator.itemgetter("passed", "output")(result)
+            if not passed:
+                test_obj["status"] = "fail"
+                test_obj["message"] = format_assertion_message(assertion)
                 if run_status != "error":
                     run_status = "fail"
         else:
@@ -93,13 +93,12 @@ def build_output(
     }
 
 
-def update_test_as_failed(test_obj: dict[str, typing.Any], assertion: str, test_code: str):
-    test_obj["status"] = "fail"
-    
-    msg = assertion
-    if not assertion.startswith("expects.be:") and test_code.startswith("expects.be:"):
-        msg = f"expects.be:'{assertion}"  
-    test_obj["message"] = normalize_output(msg)
+def format_assertion_message(text: str) -> str:
+    """Format a test's assertion result to match the assertion in the test code"""
+    func, *args = text.strip().split(' ')
+    if not args:
+        return text
+    return f"expects.be:'{func} @[{' '.join(args)}]"
 
 
 def normalize_output(text: str) -> str:
@@ -129,44 +128,23 @@ def write_output(data: dict[str, typing.Any]) -> None:
     """Write the v2 test results dictionary to JSON."""
     output_file = pathlib.Path("results.json")
     
-    fallback_data = None
+    # Generate JSON data
     try:
-        try:
-            json_data = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
-        except (TypeError, ValueError) as e:
-            # JSON serialization failure
-            fallback_data = {
-                "version": 2,
-                "status": "error",
-                "message": f"Internal error: Failed to serialize test results ({type(e).__name__}: {e})",
-                "tests": []
-            }
-        try:
-            output_file.write_text(json_data, encoding="utf-8")
-        except (OSError, IOError) as e:
-            # File write failure
-            fallback_data = {
-                "version": 2,
-                "status": "error",
-                "message": f"Internal error: Failed to write results file ({type(e).__name__}: {e})",
-                "tests": []
-            }
-    except Exception as e:
-        fallback_data = {
+        json_data = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
+    except (TypeError, ValueError) as e:
+        # JSON serialization failure
+        json_data = {
             "version": 2,
             "status": "error",
-            "message": f"Internal error: Unexpected failure ({type(e).__name__}: {e})",
+            "message": f"Internal error: Failed to serialize test results ({type(e).__name__}: {e})",
             "tests": []
         }
-    
-    if fallback_data:
-        try:
-            json_data = json.dumps(fallback_data, indent=2, ensure_ascii=False) + "\n"
-            output_file.write_text(json_data, encoding="utf-8")
-        except Exception:
-            # At this point, the shell script can handle the results.json file not being written
-            sys.exit(1)
 
+    # Write data out. If it fails, bail and exit; we can't do anything more if file writing fails.
+    try:
+        output_file.write_text(json_data)
+    except (OSError, IOError) as e:
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

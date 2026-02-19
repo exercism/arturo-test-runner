@@ -24,7 +24,7 @@
       "name": "test 4",
       "test_code": "expects.be:'false? @[returnsTrue]",
       "status": "fail",
-      "message": "expects.be:'false? true"
+      "message": "expects.be:'false? @[true]"
     }
   ]
 }
