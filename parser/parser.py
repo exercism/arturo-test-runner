@@ -71,10 +71,10 @@ def build_output(
         
         if test_key in test_results:
             result = test_results[test_key]
-            passed, assertion = operator.itemgetter("passed", "output")(result)
+            passed, output = operator.itemgetter("passed", "output")(result)
             if not passed:
                 test_obj["status"] = "fail"
-                test_obj["message"] = format_assertion_message(assertion)
+                test_obj["message"] = format_assertion_message(output)
                 if run_status != "error":
                     run_status = "fail"
         else:
@@ -97,15 +97,15 @@ def format_assertion_message(text: str) -> str:
     """Format a test's assertion result to match the assertion in the test code"""
     func, *args = text.strip().split(' ')
     if not args:
-        return text
-    return f"expects.be:'{func} @[{' '.join(args)}]"
+        return text[:65535]
+    return f"expects.be:'{func} @[{' '.join(args)}]"[:65535]
 
 
 def normalize_output(text: str) -> str:
     """
     Normalize and sanitize command line output.
 
-    This sanitizes paths, standardizes terminal formatting, and fixes macOS exit codes.
+    This sanitizes paths, standardizes terminal formatting, fixes macOS exit codes, and truncates to 65535 characters.
     """
     if not text:
         return text
@@ -121,7 +121,7 @@ def normalize_output(text: str) -> str:
     if sys.platform == "darwin" and "Name Error" in text and "code: 127" in text:
         text = text.replace("code: 127", "code: 1")
 
-    return text
+    return text[:65535]
 
 
 def write_output(data: dict[str, typing.Any]) -> None:
