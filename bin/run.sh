@@ -32,13 +32,24 @@ mkdir -p "${output_dir}"
 
 echo "${slug}: testing..."
 
-tmp_dir=$(mktemp -d -t "exercism-verify-${slug}-XXXXX")
+if ! tmp_dir=$(mktemp -d -t "exercism-verify-${slug}-XXXXX"); then
+    jq -n '{version: 2, status: "error", message: "The test runner failed to create the temporary directory for your test run. Please open a thread on the Exercism forums.", tests: []}' > "${output_dir}/results.json"
+    exit 1
+fi
 
 trap 'rm -rf "$tmp_dir"' EXIT
-cp -r "${solution_dir}/." "${tmp_dir}"
-cp "${parser_dir}/"*.py "${tmp_dir}/"
+if ! cp -r "${solution_dir}/." "${tmp_dir}"; then
+    jq -n '{version: 2, status: "error", message: "The test runner failed to copy your solution files. Please open a thread on the Exercism forums.", tests: []}' > "${output_dir}/results.json"
+    exit 1
+fi
+
+if ! cp "${parser_dir}/"*.py "${tmp_dir}/"; then
+    jq -n '{version: 2, status: "error", message: "The test runner failed to copy its internal parser files. Please open a thread on the Exercism forums.", tests: []}' > "${output_dir}/results.json"
+    exit 1
+fi
+
 if ! cd "${tmp_dir}"; then
-    jq -n '{version: 2, status: "error", message: "Critical error: The test runner failed to generate your results. Please open a thread on the Exercism forums and let us know.", tests: []}' > "${output_dir}/results.json"
+    jq -n '{version: 2, status: "error", message: "The test runner failed to change to the temporary directory. Please open a thread on the Exercism forums.", tests: []}' > "${output_dir}/results.json"
     exit 1
 fi
 
