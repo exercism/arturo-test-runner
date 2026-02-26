@@ -9,35 +9,6 @@ import parsing_test_describes
 import parsing_test_results
 
 
-def main():
-    if len(sys.argv) < 2: 
-        print("Usage: python parser.py <test-file.art> [result-file.art] [arturo-output]")
-        sys.exit(2)
-    
-    test_path = pathlib.Path(sys.argv[1])
-    if not test_path.exists():
-        print(f"ERROR: Source file {test_path} not found.", file=sys.stderr)
-        sys.exit(1)
-    test_text = test_path.read_text()
-    test_definitions = parsing_test_describes.parse_source_file(test_text)
-
-    result_path = pathlib.Path(sys.argv[2])
-    if not result_path.exists():
-        print(f"ERROR: Result file {result_path} not found.", file=sys.stderr)
-        sys.exit(1)
-    results_text = result_path.read_text()
-    test_results = parsing_test_results.parse_test_results(results_text)
-    
-    # Capture passed-in Arturo terminal output if there's an error to report
-    arturo_output = ""
-    if len(sys.argv) >= 4:
-        arturo_output = sys.argv[3]
-    
-    output = build_output(test_definitions, test_results, arturo_output)
-    
-    write_output(output)
-
-
 def build_output(
     test_definitions: list[dict[str, typing.Any]], 
     test_results: dict[str, typing.Any], 
@@ -145,6 +116,35 @@ def write_output(data: dict[str, typing.Any]) -> None:
         output_file.write_text(json_data)
     except (OSError, IOError) as e:
         sys.exit(1)
+
+
+def main():
+    if len(sys.argv) < 2: 
+        print("Usage: python parser.py <test-file.art> [result-file.art] [arturo-output]")
+        sys.exit(2)
+    
+    test_path = pathlib.Path(sys.argv[1])
+    if not test_path.exists():
+        print(f"ERROR: Source file {test_path} not found.", file=sys.stderr)
+        sys.exit(1)
+    test_text = test_path.read_text()
+    test_definitions = parsing_test_describes.parse_source_file(test_text)
+
+    result_path = pathlib.Path(sys.argv[2])
+    if not result_path.exists():
+        print(f"ERROR: Result file {result_path} not found.", file=sys.stderr)
+        sys.exit(1)
+    results_text = result_path.read_text()
+    test_results = parsing_test_results.parse_test_results(results_text)
+    
+    # Capture passed-in Arturo terminal output if there's an error to report
+    arturo_output = ""
+    if len(sys.argv) >= 4:
+        arturo_output = sys.argv[3]
+    
+    output = build_output(test_definitions, test_results, arturo_output)    
+    write_output(output)
+
 
 if __name__ == "__main__":
     main()
