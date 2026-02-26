@@ -134,14 +134,9 @@ def main():
     if not result_path.exists():
         print(f"ERROR: Result file {result_path} not found.", file=sys.stderr)
         sys.exit(1)
-
-    # Edit the generated Unitt test results file for pyparsing purposes
     results_text = result_path.read_text()
-    results_text = results_text.replace("specs: [", "specs: @[")
-    results_text = results_text.replace("tests: [", "tests: @[")
-    results_text = results_text.replace("assertions: [", "assertions: @[@")
     test_results = parsing_test_results.parse_test_results(results_text)
-
+    
     # Capture passed-in Arturo terminal output if there's an error to report
     arturo_output = ""
     if len(sys.argv) >= 4:
