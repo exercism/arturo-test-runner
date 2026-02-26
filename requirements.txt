@@ -1,0 +1,1 @@
+pyparsing~=3.3.0; python_full_version ~= "3.13"

@@ -1,0 +1,12 @@
+import.version:3.0.0 {unitt}! 
+import {src/failure-if-some-tests-fail}!
+
+describe "Failure If Some Tests Fail" [
+    it "this should pass" [
+        expects.be:'true? @[returnsTrue]
+    ]
+
+    it "this should fail" [
+        expects.be:'false? @[returnsTrue]
+    ]
+]
