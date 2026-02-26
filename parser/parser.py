@@ -46,13 +46,13 @@ def build_output(
             if not passed:
                 test_obj["status"] = "fail"
                 test_obj["message"] = format_assertion_message(output)
-                if run_status != "error":
+                if run_status != "fail":
                     run_status = "fail"
         else:
             # fallback in case things couldn't be matched up for some reason
             test_obj["status"] = "error"
             test_obj["message"] = "An error was encountered parsing this test. Please open a thread on the Exercism forums with the test that failed and your code please."
-            if run_status != "error":
+            if run_status != "fail":
                 run_status = "fail"
         
         v2_tests.append(test_obj)
