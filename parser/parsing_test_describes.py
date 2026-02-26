@@ -22,7 +22,7 @@ def extract_tests(text: str, current_suite: str) -> list[dict[str, typing.Any]]:
     tests = []
     
     for match, start, end in item_grammar.scan_string(text):
-        if "content" in match: # Describe block
+        if "content" in match:  # Describe block
             suite_name = match["name"]
             content = match["content"]
             
@@ -30,7 +30,7 @@ def extract_tests(text: str, current_suite: str) -> list[dict[str, typing.Any]]:
             nested_tests = extract_tests(content, suite_name)
             tests.extend(nested_tests)
         
-        elif "code" in match: # Test block
+        elif "code" in match:  # Test block
             raw_code = match["code"]
             stripped_code = raw_code.strip("\n") 
             dedented_code = textwrap.dedent(stripped_code).strip()
