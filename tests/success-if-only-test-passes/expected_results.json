@@ -3,8 +3,8 @@
   "status": "pass",
   "tests": [
     {
-      "name": "this should pass",
-      "test_code": "expects.be:'true? @[returnsTrue]",
+      "name": "hello returns 'Hello, World'",
+      "test_code": "expects.be:'equal? @[\"Hello, World!\" hello]",
       "status": "pass",
       "message": null
     }

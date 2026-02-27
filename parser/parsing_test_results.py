@@ -11,16 +11,16 @@ specs_block = parsing_common.key("specs:") + parsing_common.regular_block("conte
 dictionary = parsing_common.array_block("content")
 
 # properties key: value
-description_property = parsing_common.key("description:") + parsing_common.string_value("value")
+description_property = parsing_common.key("description:") + parsing_common.multiline_string_or_block("value")
 tests_property = parsing_common.key("tests:") + parsing_common.regular_block("value")
 assertions_property = parsing_common.key("assertions:") + parsing_common.regular_block("value")
 
 # assertion [ "code" boolean ]
 assertion_element = pyparsing.Group(
-    pyparsing.Suppress("[")
-    + parsing_common.string_value("code")
+    pyparsing.Suppress(pyparsing.oneOf("[ {"))
+    + (parsing_common.multiline_string_or_block | pyparsing.SkipTo(parsing_common.bool_value).set_parse_action(lambda t: t[0].strip()))("code")
     + parsing_common.bool_value("value")
-    + pyparsing.Suppress("]")
+    + pyparsing.Suppress(pyparsing.oneOf("] }"))
 )
 
 
@@ -41,7 +41,9 @@ def parse_test_results(text: str) -> dict[tuple[str, str], dict[str, typing.Any]
         name_found = parsing_common.search_first(description_property, suite_content)
         if not name_found:
             continue
-        suite_name = name_found["value"].strip()
+        suite_name = name_found["value"]
+        if not isinstance(suite_name, str):
+            suite_name = suite_name[0]
         
         tests_found = parsing_common.search_first(tests_property, suite_content)
         if not tests_found:
@@ -54,7 +56,9 @@ def parse_test_results(text: str) -> dict[tuple[str, str], dict[str, typing.Any]
             test_name_found = parsing_common.search_first(description_property, test_content)
             if not test_name_found:
                 continue
-            test_name = test_name_found["value"].strip()
+            test_name = test_name_found["value"]
+            if not isinstance(test_name, str):
+                test_name = test_name[0]
             
             assertions_found = parsing_common.search_first(assertions_property, test_content)
             if not assertions_found:
@@ -66,7 +70,9 @@ def parse_test_results(text: str) -> dict[tuple[str, str], dict[str, typing.Any]
                 continue     
             assertion = assertion_found[0]
             passed = assertion["value"]
-            output = assertion["code"].strip()
+            output = assertion["code"]
+            if not isinstance(output, str):
+                output = output[0]
             
             results[(suite_name, test_name)] = {
                 "passed": passed,
