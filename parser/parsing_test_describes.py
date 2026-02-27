@@ -9,10 +9,10 @@ describe_keyword = pyparsing.Keyword("describe")
 it_keyword = pyparsing.Literal("it.skip") | pyparsing.Keyword("it")
 
 # 'describe' block: describe "Name" [ content ] 
-describe_block = describe_keyword + parsing_common.string_value("name") + parsing_common.regular_block("content")
+describe_block = describe_keyword + parsing_common.multiline_string_or_block("name") + parsing_common.regular_block("content")
 
 # 'it' block: it "Name" [ code ] (or it.skip)
-test_block = it_keyword("type") + parsing_common.string_value("name") + parsing_common.regular_block("code")
+test_block = it_keyword("type") + parsing_common.multiline_string_or_block("name") + parsing_common.regular_block("code")
 
 item_grammar = describe_block | test_block
 
