@@ -1,4 +1,5 @@
 *
 !bin/run.sh
+!bin/stubs.c
 !parser/
 !requirements.txt
