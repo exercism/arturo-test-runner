@@ -63,6 +63,24 @@ expects.be:'equal? @[
         ]
         self.assertEqual(got, want)
 
+    def test_parse_describe_unpaired_brackets(self):
+        source = '''
+describe "Matching Brackets" [
+    it "unpaired brackets in a string do not parse as an incomplete block" [
+        expects.be:'false? @[paired? "[["]
+    ]
+]
+'''
+        got = parsing_test_describes.parse_source_file(source)
+        want = [
+            {
+                "suite": "Matching Brackets",
+                "name": "unpaired brackets in a string do not parse as an incomplete block",
+                "code": 'expects.be:\'false? @[paired? "[["]'
+            }
+        ]
+        self.assertEqual(got, want)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -7,9 +7,11 @@ pyparsing.ParserElement.enable_packrat()
 LBRACK = pyparsing.Literal("[")
 RBRACK = pyparsing.Literal("]")
 
+quoted_string = pyparsing.QuotedString('"', esc_char='\\')
+
 # nested blocks [ ... [ ... ] ... ]
 nested_block = pyparsing.Forward()
-nested_block << (LBRACK + pyparsing.ZeroOrMore(pyparsing.CharsNotIn("[]") | nested_block) + RBRACK)
+nested_block << (LBRACK + pyparsing.ZeroOrMore(quoted_string | pyparsing.CharsNotIn('[]"') | nested_block) + RBRACK)
 
 # regular_block [ ... ]
 regular_block = pyparsing.original_text_for(nested_block)
@@ -17,9 +19,6 @@ regular_block.add_parse_action(lambda t: t[0][1:-1])
 
 # array  #[ ... ]
 array_block = (pyparsing.Suppress("#") + regular_block).set_parse_action(lambda t: t[0])
-
-# string value "..."
-quoted_string = pyparsing.QuotedString('"', esc_char='\\')
 
 # nested curly blocks { .. { ... } .. }
 nested_curly = pyparsing.Forward()
